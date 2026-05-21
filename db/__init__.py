@@ -1,5 +1,6 @@
-from session import get_session
+from .session import get_session, connection_string
 
 __all__ = [
-    'get_session'
+    'get_session',
+    'connection_string'
 ]

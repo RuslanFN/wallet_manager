@@ -1,4 +1,4 @@
-from wallet import WalletService
+from .wallet import WalletService
 
 __all__ = [
     'WalletService'
