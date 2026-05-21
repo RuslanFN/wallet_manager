@@ -6,13 +6,16 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DATABASE_URL=postgresql+asyncpg://wallet_user:wallet_password@postgres:5432/wallet_db
+      - DB_USER=postgres
+      - DB_PASS=qwe123
+      - DB_NAME=wallet_manager
+      - DB_HOST=postgres
+      - DB_PORT=5432
       - DEBUG=True
       - APP_HOST=0.0.0.0
       - APP_PORT=8000
     volumes:
       - .:/app
-      - ./logs:/app/logs
     depends_on:
       - postgres
     restart: unless-stopped
@@ -20,16 +23,16 @@ services:
   postgres:
     image: postgres:13
     environment:
-      - POSTGRES_DB=wallet_db
-      - POSTGRES_USER=wallet_user
-      - POSTGRES_PASSWORD=wallet_password
+      - POSTGRES_DB=wallet_manager
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=qwe123
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U wallet_user -d wallet_db"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d wallet_manager"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -38,11 +41,3 @@ volumes:
   postgres_data:
     driver: local
 
-# Default environment variables
-# You can override these in a .env file
-# APP_PORT=8000
-# DATABASE_URL=postgresql+asyncpg://wallet_user:wallet_password@postgres:5432/wallet_db
-# POSTGRES_DB=wallet_db
-# POSTGRES_USER=wallet_user
-# POSTGRES_PASSWORD=wallet_password
-# POSTGRES_PORT=5432

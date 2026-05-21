@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 8000
 
 # Command to run the application - run tests first, then start the app
-CMD ["sh", "-c", "python -m pytest test_wallet.py -v && python main.py"]
+CMD ["sh", "-c", "alembic upgrade head && python -m db.seed && python -m pytest test_wallet.py -v && python main.py"]

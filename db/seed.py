@@ -8,8 +8,12 @@ async def seed():
     session = await anext(async_session_iterator)
     uuid1 = UUID('11111111111111111111111111111111')
     uuid2 = UUID('22222222222222222222222222222222')
-    session.add(Wallet(id=uuid1))
-    session.add(Wallet(id=uuid2))
+    wallet_or_None = await session.get(Wallet, uuid1)
+    if wallet_or_None is None:
+        session.add(Wallet(id=uuid1))
+    wallet_or_None = await session.get(Wallet, uuid2)
+    if wallet_or_None is None:
+        session.add(Wallet(id=uuid2))
     await session.commit()
 
 if __name__ == '__main__':
